@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-Width , initial-scale=1">
+    <meta charset="ISO-8859-1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Students Registered for Award</title>
+    <style>
+        button {
+            background-color: #dfeffc;
+            color: #2e6e9e;
+            margin: auto;
+            width: 100%;
+            border: 1px solid #c5dbec;
+            border-radius: 5px;
+        }
+        table,th,td{
+			border:1px solid black;
+			border-collapse: collapse;
+		}
+		 @media print {
+        object[type="application/pdf"] {
+            width: 100%; 
+        }
+    }
+    </style>
+</head>
+
+<body style="background-color: lavenderblush;">
+    <div>
+        <header class="Heading">
+            <img src="headerimg.jpg" alt="Sri Vasavi Engineering College" style="width: 100%;">
+        </header>
+        <hr>
+        <div  class="container" style="border: 1px solid black; border-radius: 10px; margin-top: 40px; margin-bottom: 40px; background-color: white;" >
+            <br>
+            <form action="storeremarks" method="POST" enctype="multipart/form-data">
+				<input type="text" th:value="${user}" name="user" style="display:none"/>
+				<input type="text" th:value="${roll}" name="roll" style="display:none"/>
+            <div th:each="s : ${sti}">
+				<div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-6 custom-padding">
+                        <h6 style="font-size: 20px; float: left; margin-right:20px;">Student ID</h6>
+                        <h6 th:text="${s.id}" style="font-size: 20px; margin-left: 20px;"></h6>
+                    </div>
+                </div>
+				<div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-6 custom-padding">
+                        <h6 style="font-size: 20px; float: left; margin-right:20px;">Name of the Candidate:</h6>
+                        <h6 th:text="${s.name}" style="font-size: 20px; margin-left: 20px;"></h6>
+                        <input type="text" th:value="${s.name}" name="studentname" style="display:none"/>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-6 custom-padding">
+                        <h6 style="font-size: 20px; float: left; margin-right:20px;">Department:</h6>
+                        <h6 th:text="${s.department}" style="font-size: 20px; margin-left: 20px;"></h6>
+                        <input type="text" th:value="${s.department}" name="branch" style="display:none"/>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-6 custom-padding">
+                        <h6 style="font-size: 20px; float: left; margin-right:20px;">Roll No:</h6>
+                        <input type="text" style="display:none" th:value="${s.rollNo}" name="roll"/>
+                        <h6 th:text="${s.rollNo}" style="font-size: 20px; margin-left: 20px;"></h6>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-6 custom-padding">
+                        <h6 style="font-size: 20px; float: left; margin-right:20px;">Contact No:</h6>
+                        <h6 th:text="${s.contactNo}" style="font-size: 20px; margin-left: 20px;"></h6>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-6 custom-padding">
+                        <h6 style="font-size: 20px; float: left; margin-right:20px;">Email Id:</h6>
+                        <h6 th:text="${s.emailId}" style="font-size: 20px; margin-left: 20px;"></h6>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <table style="height: 100px;">
+                            <thead style="text-align:center">
+                                <th>PHOTO</th>
+                                <th>ABOUT ME</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img th:if="${base64Image}" th:src="'data:image/jpeg;base64,' + ${base64Image}" width="200px" height=":200px" />
+                                    </td>
+                                    <td>
+                                        <p th:text="${s.aboutStudent}" style="font-size: 20px; color:deepskyblue">
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br><br>
+                <h4 style="text-align:center;text-decoration:underline;">A. Academics (Maximum 65Marks)</h4>
+                <hr>
+                <br>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <table style="height: 100px; width:100% ;text-align:center">
+                            <thead style="text-align:center">
+                                <th>S.No.</th>
+                                <th>Semester</th>
+                                <th>SGPA</th>
+                                <th>CGPA</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>I Semester</td>
+                                    <td>
+                                        <p th:text="${s.sem1}"></p>
+                                    </td>
+                                    <input type="text" th:value="${s.cgpa}" style="display: none;" name="cgpa"/>
+                                    <td rowspan="7" th:text="${s.cgpa}"></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>II Semester</td>
+                                    <td>
+                                        <p th:text="${s.sem2}"></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>III Semester</td>
+                                    <td>
+                                        <p th:text="${s.sem3}"></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>IV Semester</td>
+                                    <td>
+                                        <p th:text="${s.sem4}"></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>V Semester</td>
+                                    <td>
+                                        <p th:text="${s.sem5}"></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>VI Semester</td>
+                                    <td>
+                                        <p th:text="${s.sem6}"></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td>VII Semester</td>
+                                    <td>
+                                        <p th:text="${s.sem7}"></p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br><br>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+             <div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-4">
+					<h5 style="text-decoration: underline;">Pursuing Honours/Minors Degree (05 Marks):</h5>
+				</div>
+			</div>
+			<br>
+            <div class="row" th:if="${#lists.size(acad) == 0}">
+				<div class="col-md-3"></div>
+				<div class="col-md-5">
+					<em >No Honours/Minors for this student.</em>
+     			</div>
+			</div>
+			<div class="row" th:if="${#lists.size(acad) > 0}">
+				<div class="col-md-3"></div>
+				<div class="col-md-5">
+					<em th:if="${acad[0].hmcourseName==null||acad[0].hmcourseName==''}">No Honours/Minors for this student.</em>
+					<table>
+						<thead>
+							<tr th:if="${acad[0].hmcourseName != null&&acad[0].hmcourseName!=''}">
+								<th>Course Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${acad}">
+								<td th:if="${c.hmcourseName != null&&c.hmcourseName!=''}" th:text="${c.hmcourseName}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-3">
+					<input th:if="${acad[0].hmcourseName!=null&&acad[0].hmcourseName!=''}" type="text" class="form-control" name="hmarks" id="hmarks" placeholder="Enter Marks"/>
+				</div>			
+			</div>
+			<br><br>
+			<div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-8">
+					<h5 style="text-decoration: underline;">Qualification in GATE/CAT/MAT/GRE etc.(Maximum 05 Marks)</h5>
+				</div>
+			</div>
+			<br>
+			<div class="row" th:if="${#lists.size(acad) == 0}">
+				<div class="col-md-3"></div>
+				<div class="col-md-5">
+					<em >No Qualification in GATE/CAT/MAT/GRE etc for this student.</em>
+     			</div>
+			</div>
+			<div class="row" th:if="${#lists.size(acad) > 0}">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${acad[0].grCourseName==null||acad[0].grCourseName==''}">No Qualification in GATE/CAT/MAT/GRE etc for this student.</em>
+					<table>
+						<thead>
+							<tr th:if="${acad[0].grCourseName != null&&c.grCourseName!=''}">
+								<th>Course Name</th>
+								<th>Score</th>
+								<th>Rank</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${acad}">
+								<td th:if="${c.grCourseName != null&&c.grCourseName!=''}" th:text="${c.grCourseName}"></td>
+								<td th:if="${c.score != 0&&c.grCourseName!=''}" th:text="${c.score}"></td>
+								<td th:if="${c.grrank!= 0&&c.grCourseName!=''}" th:text="${c.grrank}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-3">
+					<input th:if="${acad[0].grCourseName!=null&&acad[0].grCourseName!=''}" type="text" class="form-control" name="gmarks" id="gmarks" placeholder="Enter Marks"/>
+				</div>
+			</div><br><br>
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-8">
+					<embed th:if="${acadFile}" th:src="'data:application/pdf;base64,' + ${acadFile}" height="400px" width="100%" />
+				</div>
+			</div><br><br>
+			<h5 style="text-align:center;text-decoration: underline;">B.Co–curricular Activities (Maximum 15Marks)</h5>
+			<p style="text-align:center"><i>[Conference, Journal,Paper/Poster Presentation,TechnicalQuiz,Hackathon, ProductDesign etc.]</i></p>
+			<hr><br>
+			<div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-8">
+					<h5>a) Paper Publications (Maximum 3 marks per paper)</h5>
+				</div>
+			</div><br>
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${#lists.size(co) == 0}">No Paper publications for this student.</em>
+					<div th:if="${#lists.size(co) > 0}">
+						<em th:if="${co[0].JCName == null || co[0].JCName == ''}">No Paper publications for this student.</em>
+						<table th:if="${co[0].JCName != null && co[0].JCName != ''}">
+						<thead>
+							<tr th:if="${co[0].JCName != null && co[0].JCName != ''}">
+								<th>Name of the Journal/Conference </th>
+								<th>Title of the paper and Authors</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${co}">
+                                 <td th:if="${c.JCName != null && c.JCName != ''}" th:text="${c.JCName}"></td>
+                                 <td th:if="${c.TAAP != null && c.TAAP != ''}" th:text="${c.TAAP}"></td>
+                            </tr>
+                        </tbody>
+					</table>
+					</div>
+				</div>
+			</div>
+			<br>
+            <div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-8">
+				    <h5>b) Winner in Inter-College Co-curricular activities(Max.3 marks per event)</h5>
+			    </div>
+		    </div><br>
+		    <div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${#lists.size(co)== 0}">No Inter-College Co-curricular activities for this student.</em>
+					<div th:if="${#lists.size(co) > 0}">
+						<em th:if="${co[0].IecEventName == null || co[0].IecEventName == ''}">No Inter-College Co-curricular activities for this student.</em>
+						<table th:if="${co[0].IecEventName != null && co[0].IecEventName != ''}">
+						<thead>
+							<tr th:if="${co[0].IecEventName != null && co[0].IecEventName != ''}">
+								<th>Name of the Event</th>
+								<th>Place of Event</th>
+								<th>Prize</th>
+								<th>Details of the Event</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${co}">
+                                 <td th:if="${c.IecEventName != null && c.IecEventName != ''}" th:text="${c.IecEventName}"></td>
+                                 <td th:if="${c.IecPlace != null && c.IecPlace != ''}" th:text="${c.IecPlace}"></td>
+                                 <td th:if="${c.IecPrize != null && c.IecPrize != ''}" th:text="${c.IecPrize}"></td>
+                                 <td th:if="${c.IecDetails != null && c.IecDetails != ''}" th:text="${c.IecDetails}"></td>
+                            </tr>
+                        </tbody>
+					</table>
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-8">
+				    <h5>c. Winner in Intra-College Co-curricular activities (Max. 2 marks per event)</h5>
+			    </div>
+		    </div><br>
+		    <div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${#lists.size(co)== 0}">No Intra-College Co-curricular activities for this student.</em>
+					<div th:if="${#lists.size(co) > 0}">
+						<em th:if="${co[0].IacEventName == null || co[0].IacEventName == ''}">No Intra-College Co-curricular activities for this student.</em>
+						<table th:if="${co[0].IacEventName != null && co[0].IacEventName != ''}">
+						<thead>
+							<tr th:if="${co[0].IacEventName != null && co[0].IacEventName != ''}">
+								<th>Name of the Event</th>
+								<th>Prize</th>
+								<th>Details of the Event</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${co}">
+                                 <td th:if="${c.IacEventName != null && c.IacEventName != ''}" th:text="${c.IacEventName}"></td>
+                                 <td th:if="${c.IacPrize != null && c.IacPrize != ''}" th:text="${c.IacPrize}"></td>
+                                 <td th:if="${c.IacDetails != null && c.IacDetails != ''}" th:text="${c.IacDetails}"></td>
+                            </tr>
+                        </tbody>
+					</table>
+					</div>
+				</div>
+			</div><br>
+			<div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-8">
+				    <h5>d. Winner in Intra-Department Co-curricular activities (Max. 1 mark per event)</h5>
+			    </div>
+		    </div><br>
+		    <div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${#lists.size(co)== 0}">No Intra-Department Co-curricular activities for this student.</em>
+					<div th:if="${#lists.size(co) > 0}">
+						<em th:if="${co[0].IadEventName == null || co[0].IadEventName == ''}">No Intra-Department Co-curricular activities for this student.</em>
+						<table th:if="${co[0].IadEventName != null && co[0].IadEventName != ''}">
+						<thead>
+							<tr th:if="${co[0].IadEventName != null && co[0].IadEventName != ''}">
+								<th>Name of the Event</th>
+								<th>Prize</th>
+								<th>Details of the Event</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${co}">
+                                 <td th:if="${c.IadEventName != null && c.IadEventName != ''}" th:text="${c.IadEventName}"></td>
+                                 <td th:if="${c.IadPrize != null && c.IadPrize != ''}" th:text="${c.IadPrize}"></td>
+                                 <td th:if="${c.IadDetails != null && c.IadDetails != ''}" th:text="${c.IadDetails}"></td>
+                            </tr>
+                        </tbody>
+					</table>
+					</div>
+				</div>
+			</div><br>
+			<div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-10">
+				    <h5>e. Details of Departmental Seminars delivered outside Curriculum:(Max. 2 marks per seminar- maximum 2 seminars)</h5>
+			    </div>
+		    </div><br>
+		    <div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5" >
+					<em th:if="${#lists.size(co) == 0}">No Departmental Seminars delivered by this student.</em>
+					<div th:if="${#lists.size(co) > 0}">
+						<em th:if="${co[0].DseminarTopic == null || co[0].DseminarTopic == ''}">No Departmental Seminars delivered by this student.</em>
+						<table th:if="${co[0].DseminarTopic != null && co[0].DseminarTopic != ''}">
+						<thead>
+							<tr th:if="${co[0].DseminarTopic != null && co[0].DseminarTopic != ''}">
+								<th>Seminar Topic</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${co}">
+                                 <td th:if="${c.DseminarTopic != null && c.DseminarTopic != ''}" th:text="${c.DseminarTopic}"></td>
+                            </tr>
+                        </tbody>
+					</table>
+					</div>
+				</div>
+			</div><br>
+			<div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-10">
+				    <h5>f. Details of Serving as Class Representative :(Max. 2 marks per Semester-maximum 2 Semesters)</h5>
+			    </div>
+		    </div><br>
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${#lists.size(co) == 0}">This student didn't work as class representative.</em>
+					<div th:if="${#lists.size(co) > 0}">
+						<em th:if="${co[0].SemsterCR == null || co[0].SemsterCR == ''}">This student didn't work as class representative.</em>
+						<table th:if="${co[0].SemsterCR != null && co[0].SemsterCR != ''}">
+						<thead>
+							<tr th:if="${co[0].SemsterCR != null && co[0].SemsterCR != ''}">
+								<th>Semester</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${co}">
+                                 <td th:if="${c.SemsterCR != null && c.SemsterCR != ''}" th:text="${c.SemsterCR}"></td>
+                            </tr>
+                        </tbody>
+					</table>
+					</div>
+				</div>
+			</div><br>
+			<div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-8">
+				    <h5>g. Professional Body Membership:(1 mark per membership)</h5>
+			    </div>
+		    </div><br>
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${#lists.size(co)== 0}">This student didn't have any professionalbody membership.</em>
+					<div th:if="${#lists.size(co) > 0}">
+						<em th:if="${co[0].PBMember == null || co[0].PBMember == ''}">This student didn't have any professionalbody membership.</em>
+						<table th:if="${co[0].PBMember != null && co[0].PBMember != ''}">
+						<thead th:if="${co[0].PBMember != null && co[0].PBMember != ''}">
+							<tr th:if="${co[0].PBMember != null && co[0].PBMember != ''}">
+								<th>Professional Body Membership</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${co}">
+                                 <td th:if="${c.PBMember != null && c.PBMember != ''}" th:text="${c.PBMember}"></td>
+                            </tr>
+                        </tbody>
+					</table>
+					</div>
+				</div>
+			</div><br>
+			<div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-8">
+				    <h5>h. MOOCs Certifications:(Max. 2 marks per Certification)</h5>
+			    </div>
+		    </div><br>
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${#lists.size(co)== 0}">This student didn't have any MOOCs Certifications.</em>
+					<div th:if="${#lists.size(co) > 0}">
+						<em th:if="${co[0].Moocs == null || co[0].Moocs == ''}">This student didn't have any MOOCs Certifications.</em>
+						<table th:if="${co[0].Moocs != null && co[0].Moocs != ''}">
+						<thead>
+							<tr th:if="${co[0].Moocs != null && co[0].Moocs != ''}">
+								<th>MOOCs Certifications</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${co}">
+                                 <td th:if="${c.Moocs != null && c.Moocs != ''}" th:text="${c.Moocs}"></td>
+                            </tr>
+                        </tbody>
+					</table>
+					</div>
+				</div>
+			</div><br>
+			<div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-8">
+				    <h5>i. Internship / Consultancy :(Max. 2 marks per Internship of 4 weeks)</h5>
+			    </div>
+		    </div><br>
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${#lists.size(co) == 0}">This student hadn't participated in any Internship/Consultancy.</em>
+					<div th:if="${#lists.size(co) > 0}">
+						<em th:if="${co[0].IC == null || co[0].IC == ''}">This student hadn't participated in any Internship/Consultancy.</em>
+					    <table th:if="${co[0].IC != null && co[0].IC != ''}">
+						<thead>
+							<tr th:if="${co[0].IC != null && co[0].IC != ''}">
+								<th>Internship/Consultancy</th>
+								<th>Duration</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${co}">
+                                 <td th:if="${c.IC != null && c.IC != ''}" th:text="${c.IC}"></td>
+                                 <td th:if="${c.IcDur != null && c.IcDur != ''}" th:text="${c.IcDur}"></td>
+                            </tr>
+                        </tbody>
+					    </table>						
+					</div>
+				</div>
+			</div><br>
+			<div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-8">
+				    <h5>j. Awards/any other significant contributions:(Max. 2 Marks)</h5>
+			    </div>
+		    </div><br>
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${#lists.size(co) == 0}">This student doesn't have any other awards/contributions.</em>
+					<div th:if="${#lists.size(co) >0}">
+						<em th:if="${co[0].OtherAC == null || co[0].OtherAC == ''}">This student doesn't have any other awards/contributions.</em>
+						<table th:if="${co[0].OtherAC != null && co[0].OtherAC != ''}">
+						<thead>
+							<tr th:if="${co[0].OtherAC != null && co[0].OtherAC != ''}">
+								<th>Award/Contribution</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${co}">
+                                 <td th:if="${c.OtherAC != null && c.OtherAC != ''}" th:text="${c.OtherAC}"></td>
+                            </tr>
+                        </tbody>
+					</table>
+					</div>
+				</div>
+			</div><br>
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-8">
+					<embed th:if="${coFile}" th:src="'data:application/pdf;base64,' + ${coFile}" height="400px" width="100%" />
+				</div>
+			</div><br><br>
+			<h5 style="text-align:center;text-decoration: underline;">C. Extracurricular Activities (Maximum 15 Marks*)</h5>
+			<p style="text-align:center"><i>[Sports, Dance, Music, General Quiz, Short Film etc.]</i></p>
+			<hr><br>
+			<div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-8">
+				    <h5>a. Selection in University Team:&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;1.Individual (3 Marks)</h5>
+				    <h5 style="margin-left:370px">2.Group (2 Marks)</h5>
+			    </div>
+		    </div><br>
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${#lists.size(ex) == 0}">This student was not selected in any University team.</em>
+					<div th:if="${#lists.size(ex) > 0}">
+						<em th:if="${ex[0].SUTEvent == null || ex[0].SUTEvent == ''}">This student was not selected in any University team.</em>
+						<table th:if="${ex[0].SUTEvent != null && ex[0].SUTEvent != ''}">
+						<thead>
+							<tr th:if="${ex[0].SUTEvent != null && ex[0].SUTEvent != ''}">
+								<th>Event</th>
+								<th>Participation</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${ex}">
+                                 <td th:if="${c.SUTEvent != null && c.SUTEvent != ''}" th:text="${c.SUTEvent}"></td>
+                                 <td th:if="${c.SUTPart != null && c.SUTPart != ''}" th:text="${c.SUTPart}"></td>
+                            </tr>
+                        </tbody>
+					</table>
+					</div>
+				</div>
+			</div><br>
+			<div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-8">
+				    <h5>b. Outside the College</h5>
+				    <h5>I/II Prize Won</h5>
+			    </div>
+		    </div><br>
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${#lists.size(ex) == 0}">This student doesn't won in any event outside the college.</em>
+					<div th:if="${#lists.size(ex) > 0}">
+						<em th:if="${ex[0].OCWEvent == null || ex[0].OCWEvent == ''}">This student doesn't won in any event outside the college.</em>
+						<table th:if="${ex[0].OCWEvent != null && ex[0].OCWEvent != ''}">
+						<thead>
+							<tr th:if="${ex[0].OCWEvent != null && ex[0].OCWEvent != ''}">
+								<th>Event</th>
+								<th>Prize Won</th>
+								<th>Participated as</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${ex}">
+                                 <td th:if="${c.OCWEvent != null && c.OCWEvent != ''}" th:text="${c.OCWEvent}"></td>
+                                 <td th:if="${c.OCWPrize != null && c.OCWPrize != ''}" th:text="${c.OCWPrize}"></td>
+                                 <td th:if="${c.OCWPart != null && c.OCWPart != ''}" th:text="${c.OCWPart}"></td>
+                            </tr>
+                        </tbody>
+					</table>
+					</div>
+				</div>
+			</div><br>
+			<div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-8">
+				    <h5>Participation</h5>
+			    </div>
+		    </div><br>
+		    <div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${#lists.size(ex) == 0}">This student doesn't participate in any event outside the college.</em>
+					<div th:if="${#lists.size(ex) > 0}">
+						<em th:if="${ex[0].OCPEvent == null || ex[0].OCPEvent == ''}">This student doesn't participate in any event outside the college.</em>
+						<table th:if="${ex[0].OCPEvent != null && ex[0].OCPEvent != ''}">
+						<thead>
+							<tr th:if="${ex[0].OCPEvent != null && ex[0].OCPEvent != ''}">
+								<th>Event</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${ex}">
+                                 <td th:if="${c.OCPEvent != null && c.OCPEvent != ''}" th:text="${c.OCPEvent}"></td>
+                            </tr>
+                        </tbody>
+					</table>
+					</div>
+				</div>
+			</div><br>
+			<div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-8">
+				    <h5>c. Within the College</h5>
+			    </div>
+		    </div><br>
+		    <div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${#lists.size(ex) == 0}">This student doesn't participate in any event within the college.</em>
+					<div th:if="${#lists.size(ex) > 0}">
+						<em th:if="${ex[0].WCEvent == null || ex[0].WCEvent == ''}">This student doesn't participate in any event within the college.</em>
+						<table th:if="${ex[0].WCEvent != null && ex[0].WCEvent != ''}">
+						<thead>
+							<tr th:if="${ex[0].WCEvent != null && ex[0].WCEvent != ''}">
+								<th>Event</th>
+								<th>Prize Won</th>
+								<th>Participated as</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${ex}">
+                                 <td th:if="${c.WCEvent != null && c.WCEvent != ''}" th:text="${c.WCEvent}"></td>
+                                 <td th:if="${c.WCPrize != null && c.WCPrize != ''}" th:text="${c.WCPrize}"></td>
+                                 <td th:if="${c.WCPart != null && c.WCPart != ''}" th:text="${c.WCPart}"></td>
+                            </tr>
+                        </tbody>
+					</table>
+					</div>
+				</div>
+			</div><br>
+			<div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-4">
+				    <h5>d. Tech Fest Coordinator:</h5>
+			    </div>
+			    <div class="col-md-4">
+					<h5>College Level (2 Marks)</h5>
+				    <h5>Dept. Level (1 Mark)</h5>
+				</div>
+		    </div><br>
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${#lists.size(ex) == 0}">This student didn't work as TechFest Coordinator.</em>
+					<div th:if="${#lists.size(ex) > 0}">
+						<em th:if="${ex[0].TFCOccassion == null || ex[0].TFCOccassion == ''}">This student didn't work as TechFest Coordinator.</em>
+						<table th:if="${ex[0].TFCOccassion != null && ex[0].TFCOccassion != ''}">
+						<thead>
+							<tr th:if="${ex[0].TFCOccassion != null && ex[0].TFCOccassion != ''}">
+								<th>Occasion</th>
+								<th>Level</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${ex}">
+                                 <td th:if="${c.TFCOccassion != null && c.TFCOccassion != ''}" th:text="${c.TFCOccassion}"></td>
+                                 <td th:if="${c.TFCLevel != null && c.TFCLevel != ''}" th:text="${c.TFCLevel}"></td>
+                            </tr>
+                        </tbody>
+					</table>
+					</div>
+				</div>
+			</div><br>
+			<div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-4">
+				    <h5>e. Any other Coordinator:</h5>
+			    </div>
+			    <div class="col-md-4">
+					<h5>College Level (2 Marks)</h5>
+				    <h5>Dept. Level (1 Mark)</h5>
+				</div>
+		    </div><br>
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${#lists.size(ex) == 0}">This student didn't work as any other Coordinator.</em>
+					<div th:if="${#lists.size(ex) > 0}">
+						<em th:if="${ex[0].OtherCOccassion == null || ex[0].OtherCOccassion == ''}">This student didn't work as any other Coordinator.</em>
+						<table th:if="${ex[0].OtherCOccassion != null && ex[0].OtherCOccassion != ''}">
+						<thead>
+							<tr th:if="${ex[0].OtherCOccassion != null && ex[0].OtherCOccassion != ''}">
+								<th>Occasion</th>
+								<th>Level</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${ex}">
+                                 <td th:if="${c.OtherCOccassion != null && c.OtherCOccassion != ''}" th:text="${c.OtherCOccassion}"></td>
+                                 <td th:if="${c.OtherLevel != null && c.OtherLevel != ''}" th:text="${c.OtherLevel}"></td>
+                            </tr>
+                        </tbody>
+					</table>
+					</div>
+				</div>
+			</div><br>
+			<div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-8">
+				    <h5>f. Committee Member (1 Mark per committee):</h5>
+			    </div>
+		    </div><br>
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${#lists.size(ex) == 0}">This student didn't work as Committee Member.</em>
+					<div th:if="${#lists.size(ex) > 0}">
+						<em th:if="${ex[0].CMAbout == null || ex[0].CMAbout == ''}">This student didn't work as Committee Member.</em>
+						<table th:if="${ex[0].CMAbout != null && ex[0].CMAbout != ''}">
+						<thead>
+							<tr th:if="${ex[0].CMAbout != null && ex[0].CMAbout != ''}">
+								<th>About Committee</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${ex}">
+                                 <td th:if="${c.CMAbout != null && c.CMAbout != ''}" th:text="${c.CMAbout}"></td>
+                            </tr>
+                        </tbody>
+					</table>
+					</div>
+				</div>
+			</div><br>
+			<div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-8">
+				    <h5>g. Participation in NSS / Blood Donation/ Other Social Service Activity(Max. 2 Marks):</h5>
+			    </div>
+		    </div><br>
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${#lists.size(ex) == 0}">This student didn't participate in NSS / Blood Donation/ Other Social Service Activity.</em>
+					<div th:if="${#lists.size(ex) > 0}">
+						<em th:if="${ex[0].SSAAbout == null || ex[0].SSAAbout == ''}">This student didn't participate in NSS / Blood Donation/ Other Social Service Activity.</em>
+						<table th:if="${ex[0].SSAAbout != null && ex[0].SSAAbout != ''}">
+						<thead>
+							<tr th:if="${ex[0].SSAAbout != null && ex[0].SSAAbout != ''}">
+								<th>About Activity</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${ex}">
+                                 <td th:if="${c.SSAAbout != null && c.SSAAbout != ''}" th:text="${c.SSAAbout}"></td>
+                            </tr>
+                        </tbody>
+					</table>
+					</div>
+				</div>
+			</div><br>
+			<div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-8">
+				    <h5>h. Awards /any other significant contributions(Max. 2 Marks)</h5>
+			    </div>
+		    </div><br>
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-5">
+					<em th:if="${#lists.size(ex) == 0}">This student didn't have  awards/any other significant contributions.</em>
+					<div th:if="${#lists.size(ex) > 0}">
+						<em th:if="${ex[0].OtherAC == null || ex[0].OtherAC == ''}">This student didn't have  awards/any other significant contributions.</em>
+						<table th:if="${ex[0].OtherAC != null && ex[0].OtherAC != ''}">
+						<thead>
+							<tr th:if="${ex[0].OtherAC != null && ex[0].OtherAC != ''}">
+								<th>Award/Contribution</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c : ${ex}">
+                                 <td th:if="${c.OtherAC != null && c.OtherAC != ''}" th:text="${c.OtherAC}"></td>
+                            </tr>
+                        </tbody>
+					</table>
+					</div>
+				</div>
+				</div>
+				<br><br>
+   			<div class="row">
+				<div class="col-md-2"></div>
+				<div th:if="${extraFile != null}">
+            <embed th:src="'data:application/pdf;base64,' + ${extraFile}" height="400px" width="100%" />
+        </div>
+        </div>
+        <div class="row" th:unless="${extraFile != null}">
+            <div class="col-md-2"></div>
+            <div class="col-md-2">
+				<i>File not provided</i>
+			</div>
+        </div>
+        <br><br>
+			<div class="row">
+		    	<div class="col-md-1"></div>
+			    <div class="col-md-8">
+				    <h5>Recommendation about the student</h5>
+			    </div>
+		    </div><br>
+			<div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-8">
+					<textarea name="remarkshod" style="width:900px;height:70px"></textarea>
+				</div>
+			</div>
+			<br><br>
+			<div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-1" style="text-align:left;">
+                        <h6>Signature:</h6>
+                </div>
+                <div class="col-md-3" style="text-align:left;">
+					<input type="text" name="signhod" class="form-control" required/>
+				</div>
+            </div>
+            <br>
+            <div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-1" style="text-align:left;">
+					<h6>Date:</h6>
+				</div>
+				<div class="col-md-3" style="text-align:left;">
+					<input type="text" placeholder="DD-MM-YYYY" name="datehod" class="form-control" required/>
+				</div>
+			</div>
+			<br><br>
+			<hr>
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-3 float-left" th:if="${c.place!= null && c.place !=''}" th:each="c : ${ex}">
+					<h5 style="font-weight: bold;" th:if="${c.place!= null && c.place !=''}">Place: <span Style="font-weight:normal" th:text="${c.place}"></span></h5>
+					<h5 style="font-weight: bold;" th:if="${c.date != null}">Date: <span style="font-weight: normal" th:text="${#dates.format(c.date, 'dd-MM-yyyy')}"></span></h5>
+				</div>
+				<div class="col-md-3"></div>
+				<div class="col-md-4">
+					<img th:if="${signFile}" th:src="'data:image/jpeg;base64,' + ${signFile}" width="200px" height="200px" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-5"></div>
+				<div class="col-md-2" style="text-align:center">
+					<button  type="submit" style="background-color: dodgerblue; color: white; border-color: aliceblue; border-radius: 5px;" onClick="alert('Successfully Submitted');" title="Click here to Submit Marks">Submit</button>
+				</div>
+				<div class="col-md-5"></div>
+			</div>
+			<br><br>
+			</form>
+		</div>
+    </div>
+</body>
+</html>

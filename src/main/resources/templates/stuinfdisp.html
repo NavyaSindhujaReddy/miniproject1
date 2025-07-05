@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="ISO-8859-1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+    <title>Students Registered for Award</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+    <style>
+        h1{
+			color:darkblue;
+			text-align:center;
+		}
+		.roll{
+			display:none;
+		}
+		table,tr {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+		button{
+			color:#2e6e9e;
+			margin:auto;
+			width:100%;
+			border:1px solid #c5dbec;
+			border-radius:5px;
+		}
+    </style>
+</head>
+<body style="background-color: lavenderblush;">
+<div>
+    <header class="Heading">
+        <img src="headerimg.jpg" alt="Sri Vasavi Engineering College" style="width: 100%;">
+    </header>
+    <hr>
+    <div class="container" style="border: 1px solid black; border-radius: 10px; margin-top: 40px; margin-bottom: 40px; background-color: white;">
+        <br>
+        <h1>Nominees For the Remarks</h1>
+        <br><br>
+        <div class="row" th:each="item : ${roll}">
+			<form action="giveremarks">
+				<input type="text" name="roll" class="roll"  th:value="${item.rollNo}" th:placeholder="${item.rollNo}"/>
+                <button th:text="${item.rollNo}" th:if="${item.flag1==0}" style="background-color:#dfeffc ;" ></button>
+				<button th:text="${item.rollNo}" th:if="${item.flag1==1}" style="background-color:rgb(198, 253, 199) ;" disabled></button>
+			</form>
+		</div>
+		<div class="row" th:each="item : ${roll1}">
+			<form action="giveremarks">
+				<input type="text" name="roll" class="roll"  th:value="${item}" th:placeholder="${item}"/>
+				<button th:text="${item.rollNo}" th:if="${item.flag1==0}" style="background-color:#dfeffc ;" ></button>
+				<button th:text="${item.rollNo}" th:if="${item.flag1==1}" style="background-color:rgb(198, 253, 199) ;" disabled></button>
+			</form>
+		</div>
+        <h1>Nominees For the Application</h1>
+        <br><br>
+        <div class="row" th:each="item : ${rollNumbers}">
+			<form action="getDetails">
+				<input type="text" name="roll" class="roll"  th:value="${item.rollNo}" th:placeholder="${item.rollNo}"/>
+				<button th:text="${item.rollNo}" th:if="${item.flag==0}" style="background-color:#dfeffc ;" ></button>
+				<button th:text="${item.rollNo}" th:if="${item.flag==1}" style="background-color:rgb(198, 253, 199) ;" disabled></button>
+			</form>
+		</div>
+		<br><br><br>
+		<h1>Marks Of the Students</h1>
+		<button type="button" onclick="downloadTable()" align="right">Download Table</button>
+		<br><br>
+		<form action="stuInterview" method="post">
+		<table style="border-collapse: collapse; width: 100%"  id="studentmarks">
+			<tr>
+				<th></th>
+				<th>SNO.</th>
+				<th>Roll No.</th>
+				<th>Branch</th>
+				<th>Student Name</th>
+				<th>Academics upto  7th  Semester</th>
+				<th>Honours/ Minors</th>
+				<th>Qualification in GATE/ CAT/ GRE etc.</th>
+				<th>Co-curricular Activities</th>
+				<th>Extracurricular Activities</th>
+				<th>Subtotal</th>
+			</tr>
+			<tr th:each="stu :${preRoll}">
+				<td><input type="checkbox" th:value="${stu.rollno}" name="selectedStudents"/></td>
+				<td th:text="${stu.id}"></td>
+				<td th:text="${stu.rollno}"></td>
+				<td th:text="${stu.branch}"></td>
+				<td th:text="${stu.StudentName}"></td>
+				<td th:text="${stu.cgpamarks}"></td>
+				<td th:text="${stu.hm}"></td>
+				<td th:text="${stu.gm}"></td>
+				<td th:text="${stu.coc}"></td>
+				<td th:text="${stu.extra}"></td>
+				<td th:text="${stu.subtotal}"></td>
+			</tr>
+		</table>
+		<br>
+		<div style="text-align:center">
+            <button type="submit" style="background-color:green;color:white;border-color: white;width: auto; padding-top:10px;padding-bottom:10px;" onclick="alert('The Students are sent for interview panel')">Send To Panel</button>
+        </div>
+		</form>
+		<br><br>
+		<div class="row">
+			<h2 style="text-align:center;">Nominees For Interview</h2>
+		</div>
+		<br>
+		<div class="row" th:if="${user=='LoshmaG'}" th:each="item : ${roll3}">
+			<form action="getDetailsint">
+				<input type="text" name="user" th:value="${user}" style="display:none"/>
+				<input type="text" name="roll" class="roll"  th:value="${item.rollNo}" th:placeholder="${item.rollNo}"/>
+				<button th:text="${item.rollNo}" th:if="${item.p5f==0}" style="background-color:#dfeffc ;" ></button>
+				<button th:text="${item.rollNo}" th:if="${item.p5f==1}" style="background-color:rgb(198, 253, 199) ;" disabled></button>
+			</form>
+			<br><br>
+		</div>
+		<div class="row">
+			<h2 style="text-align:center;">Best Outgoing Student</h2>
+		</div>
+		<br>
+		<form action="getBSOD" method="get" enctype="multipart/form-data">
+			<div class="disp">
+				<button type="button" onclick="downloadTable1()" align="right">Download Table</button>
+			<table th:if="${bos != null and not #lists.isEmpty(bos)}" style="border-collapse: collapse; width: 100%;display:none"  id="studentbos">
+			<tr>
+				<th>SNO.</th>
+				<th>Roll No.</th>
+				<th>Branch</th>
+				<th>Student Name</th>
+				<th>Subtotal</th>
+				<th>Interview</th>
+				<th>Total</th>
+			</tr>
+			<tr th:each="stu :${bos}">
+				<td th:text="${stu.id}"></td>
+				<td th:text="${stu.rollno}"></td>
+				<td th:text="${stu.branch}"></td>
+				<td th:text="${stu.StudentName}"></td>
+				<td th:text="${stu.subtotal}"></td>
+				<td th:text="${stu.interviewMarks}"></td>
+				<td th:text="${stu.Total}"></td>
+			</tr>
+		</table>
+			</div>
+			<div class="row">
+			<button type="button" onclick="toggleTableVisibility()" style="background-color:rgb(255, 0, 128);color:white;border-color: white;width: auto;" title="show Best OutGoing Student">Show</button>
+			</div>	
+		</form>		
+		<br><br>
+		<div></div>
+    </div>
+</div>
+<script>
+  function downloadTable() {
+    var table = document.getElementById("studentmarks");
+    var ws = XLSX.utils.table_to_sheet(table);
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    XLSX.writeFile(wb, "table_data.xlsx");
+  }
+    function downloadTable1() {
+    var table = document.getElementById("studentbos");
+    var ws = XLSX.utils.table_to_sheet(table);
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    XLSX.writeFile(wb, "table_data.xlsx");
+  }
+  function toggleTableVisibility() {
+	  console.log("Button clicked");
+            var table = document.getElementById("studentbos");
+            if (table) {
+                table.style.display = (table.style.display === "none") ? "table" : "none";
+            }
+  }
+  window.addEventListener('popstate', function() {
+    // Reload the page when navigating back in history
+    location.reload(true);
+  });
+</script>
+</body>
+</html>

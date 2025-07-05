@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700">
+    <link rel="stylesheet" href="app.css">
+    <style>
+		.btn{
+			margin-left:100px;
+		}
+.popup {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+#signupForm label{
+text-align: left;
+}
+.popup-content {
+	height:400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  padding: 20px;
+  width: 350px;
+  border-radius: 5px;
+}
+
+.close-btn {
+  cursor: pointer;
+  float: right;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.close-btn:hover {
+  color: #333;
+}
+		html {
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+body {
+    background-color: #60a9ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.panel {
+    background-color: white;
+    border-radius: 10px;
+    border: 50px 0px;
+    padding: 15px 25px;
+    width: 100%;
+    max-width: 960px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    text-transform: uppercase;
+}
+.form-control {
+    border-radius: 10px;
+    width: 240px;
+    height: 30px;
+    font-weight: 800;
+    margin-top: 10px;
+    color: #016ff9;
+    background: #fdfdfd;
+}
+
+.pricing-plan {
+    border-bottom: 1px solid #e1f1ff;
+}
+
+.pricing-plan:last-child {
+    border-bottom: none;
+}
+
+.pricing-img {
+    margin-bottom: 25px;
+    width: 100%;
+    max-width: 100%;
+}
+
+.pricing-header {
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.pricing-features {
+    margin: 50px 0 25px;
+    color: #016ff9;
+}
+
+.create-acct {
+    margin-top: 30px;
+
+    text-transform: lowercase;
+    font-size: small;
+    outline-width: 20px;
+}
+
+.pricing-features-items {
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 15px 0;
+    border-top: 1px solid #e1f1ff;
+}
+
+.pricing-features-item :last-child {
+    border-bottom: 1px solid #e1f1ff;
+
+}
+
+
+
+.pricing-price {
+    color: #016ff9;
+    display: block;
+    font-size: 32px;
+    font-weight: 700;
+
+}
+
+.pricing-button,#openPopupBtn {
+    border: 1px solid #9dd1ff;
+    border-radius: 10px;
+    color: white;
+     background-color: #48aaff;
+    display: inline-block;
+    padding: 15px 35px;
+    text-decoration: none;
+    margin: 25px 0;
+    transition: background-colour 200ms ease-in-out;
+}
+
+.pricing-button:hover,
+.pricing-button:focus {
+    background-color: #48aaff;
+
+}
+
+.pricing-button.is-featured {
+    margin-top: 45px;
+    background-color: #48aaff;
+    color: white;
+
+}
+
+.pricing-button.is-featured:hover,
+.pricing-button.is-featured:focus {
+    background-color: #269aff;
+    color: white;
+}
+
+@media (min-width: 900px) {
+    .panel {
+        flex-direction: row;
+    }
+
+    .pricing-plan {
+        border-bottom: none;
+        border-right: 1px solid #e1f1ff;
+        padding: 25px 50px;
+    }
+
+    .pricing-plan:last-child {
+        border-right: none;
+    }
+
+    /* .pricing-price:first-child {
+        border-left: 1px solid #e1f1ff;
+    } */
+}
+	</style>
+</head>
+
+<body>
+    <div class="panel pricing-table">
+        <form action="/teacherlogin" method="post" class="pricing-plan">
+            <img src="teacher.png" alt="" class="pricing-img">
+            <h2 class="pricing-header">Teacher</h2>
+            <span class="pricing-price">Sign in</span>
+            <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                  <p th:text="${errorMessage}"></p>
+            </div>
+            <input type="text" name="username" class="form-control" placeholder="Username" required><br>
+            <input type="password" name="password" class="form-control" placeholder="Password" required><br>
+            <button type="submit" class="pricing-button is-featured">Sign in</button>
+        </form>
+        <form action="/studentlogin" method="post" class="pricing-plan">
+            <img src="graduated student.png" alt="" class="pricing-img">
+            <h2 class="pricing-header">Student</h2>
+            <span class="pricing-price">Sign in</span>
+            <div th:if="${emsg}" class="alert alert-danger" role="alert">
+                  <p th:text="${emsg}"></p>
+            </div>
+            <input type="text" name="susername" class="form-control" placeholder="Username" required><br>
+            <input type="password" name="spassword" class="form-control" placeholder="Password" required><br>
+            <button type="submit" class="pricing-button is-featured">Sign in</button>
+      </form>
+    </div>
+    <script>
+		document.getElementById('openPopupBtn').addEventListener('click', function() {
+               document.getElementById('signupPopup').style.display = 'block';
+        });
+        document.getElementById('closePopupBtn').addEventListener('click', function() {
+               document.getElementById('signupPopup').style.display = 'none';
+        });
+   </script>
+   <script th:inline="javascript">
+    /*<![CDATA[*/
+    var msg = /*[[${msg}]]*/ '';
+    if (msg) {
+        alert(msg);
+    }
+    /*]]>*/
+</script>
+
+</body>
+
+</html>
